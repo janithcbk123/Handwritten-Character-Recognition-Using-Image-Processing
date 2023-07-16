@@ -1,0 +1,191 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">import </span><span class="s1">pandas</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">import </span><span class="s1">random</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">from </span><span class="s1">keras_preprocessing.image </span><span class="s0">import </span><span class="s1">ImageDataGenerator</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">import </span><span class="s1">tensorflow </span><span class="s0">as </span><span class="s1">tf</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">import </span><span class="s1">matplotlib.image </span><span class="s0">as </span><span class="s1">img</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">import </span><span class="s1">matplotlib.pyplot </span><span class="s0">as </span><span class="s1">plt</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">import </span><span class="s1">cv2 </span><span class="s0">as </span><span class="s1">cv</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0">import </span><span class="s1">sys</span>
+<a name="l9"><span class="ln">9    </span></a>
+<a name="l10"><span class="ln">10   </span></a><span class="s1">test_image_count = </span><span class="s2">8</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s1">epochs_count = </span><span class="s2">30</span>
+<a name="l12"><span class="ln">12   </span></a><span class="s1">calculate_epochs = </span><span class="s0">False</span>
+<a name="l13"><span class="ln">13   </span></a>
+<a name="l14"><span class="ln">14   </span></a><span class="s1">print(</span><span class="s3">&quot;DMX5314 - Case Study-01 - 116967442&quot;</span><span class="s1">)</span>
+<a name="l15"><span class="ln">15   </span></a>
+<a name="l16"><span class="ln">16   </span></a><span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Train or Test:'</span><span class="s1">)</span>
+<a name="l17"><span class="ln">17   </span></a><span class="s1">print(</span><span class="s3">'</span><span class="s0">\t </span><span class="s3">Test  -0'</span><span class="s1">)</span>
+<a name="l18"><span class="ln">18   </span></a><span class="s1">print(</span><span class="s3">'</span><span class="s0">\t </span><span class="s3">Train -1'</span><span class="s1">)</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Enter your choice:'</span><span class="s1">)</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s1">choice1 = input()</span>
+<a name="l21"><span class="ln">21   </span></a>
+<a name="l22"><span class="ln">22   </span></a><span class="s4"># Decide if to load an existing model (Test) or to train a new one (Train)</span>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a><span class="s0">if </span><span class="s1">choice1 == </span><span class="s3">'0'</span><span class="s1">:  </span><span class="s4"># Test From Model</span>
+<a name="l25"><span class="ln">25   </span></a>    <span class="s1">train_new_model = </span><span class="s0">False  </span><span class="s4"># Set model train</span>
+<a name="l26"><span class="ln">26   </span></a>    <span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Number of Test Images:'</span><span class="s1">)</span>
+<a name="l27"><span class="ln">27   </span></a>    <span class="s1">test_image_count = int(input())</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">elif </span><span class="s1">choice1 == </span><span class="s3">'1'</span><span class="s1">:  </span><span class="s4"># Train The Model</span>
+<a name="l29"><span class="ln">29   </span></a>    <span class="s1">train_new_model = </span><span class="s0">True  </span><span class="s4"># Set model train</span>
+<a name="l30"><span class="ln">30   </span></a>    <span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Calculate Optimum epochs:'</span><span class="s1">)</span>
+<a name="l31"><span class="ln">31   </span></a>    <span class="s1">print(</span><span class="s3">'</span><span class="s0">\t </span><span class="s3">No  -0'</span><span class="s1">)</span>
+<a name="l32"><span class="ln">32   </span></a>    <span class="s1">print(</span><span class="s3">'</span><span class="s0">\t </span><span class="s3">Yes -1'</span><span class="s1">)</span>
+<a name="l33"><span class="ln">33   </span></a>    <span class="s1">choice2 = input()</span>
+<a name="l34"><span class="ln">34   </span></a>    <span class="s0">if </span><span class="s1">choice2 == </span><span class="s3">'0'</span><span class="s1">:  </span><span class="s4"># Use Calculated Optimum epochs</span>
+<a name="l35"><span class="ln">35   </span></a>        <span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Number of epochs:'</span><span class="s1">)</span>
+<a name="l36"><span class="ln">36   </span></a>        <span class="s1">epochs_count = int(input())</span>
+<a name="l37"><span class="ln">37   </span></a>    <span class="s0">elif </span><span class="s1">choice2 == </span><span class="s3">'1'</span><span class="s1">:  </span><span class="s4"># Calculate Optimum epochs</span>
+<a name="l38"><span class="ln">38   </span></a>        <span class="s1">calculate_epochs = </span><span class="s0">True</span>
+<a name="l39"><span class="ln">39   </span></a>        <span class="s1">epochs_count = </span><span class="s2">200</span>
+<a name="l40"><span class="ln">40   </span></a>    <span class="s0">else</span><span class="s1">:</span>
+<a name="l41"><span class="ln">41   </span></a>        <span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Invalid Input:'</span><span class="s1">)</span>
+<a name="l42"><span class="ln">42   </span></a>        <span class="s1">sys.exit()</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s0">else</span><span class="s1">:</span>
+<a name="l44"><span class="ln">44   </span></a>    <span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Invalid Input!'</span><span class="s1">)</span>
+<a name="l45"><span class="ln">45   </span></a>    <span class="s1">sys.exit()</span>
+<a name="l46"><span class="ln">46   </span></a>
+<a name="l47"><span class="ln">47   </span></a><span class="s1">data_path = </span><span class="s3">r&quot;D:\Acadamic OUSL\Level 5\Vision\Mini Project Code&quot;</span>
+<a name="l48"><span class="ln">48   </span></a>
+<a name="l49"><span class="ln">49   </span></a><span class="s1">dataset = pandas.read_csv(</span><span class="s3">r'D:\Acadamic OUSL\Level 5\Vision\Mini Project Code\english.csv'</span><span class="s1">)</span>
+<a name="l50"><span class="ln">50   </span></a><span class="s1">rand = random.sample(range(len(dataset))</span><span class="s0">, </span><span class="s2">500</span><span class="s1">)</span>
+<a name="l51"><span class="ln">51   </span></a><span class="s1">validation_set = pandas.DataFrame(dataset.iloc[rand</span><span class="s0">, </span><span class="s1">:].values</span><span class="s0">, </span><span class="s1">columns=[</span><span class="s3">'image'</span><span class="s0">, </span><span class="s3">'label'</span><span class="s1">])</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s4"># remove the added data</span>
+<a name="l53"><span class="ln">53   </span></a><span class="s1">dataset.drop(rand</span><span class="s0">, </span><span class="s1">inplace=</span><span class="s0">True</span><span class="s1">)</span>
+<a name="l54"><span class="ln">54   </span></a>
+<a name="l55"><span class="ln">55   </span></a><span class="s1">rand = random.sample(range(len(validation_set))</span><span class="s0">, </span><span class="s2">5</span><span class="s1">)</span>
+<a name="l56"><span class="ln">56   </span></a><span class="s4"># remove the added data</span>
+<a name="l57"><span class="ln">57   </span></a><span class="s1">validation_set.drop(rand</span><span class="s0">, </span><span class="s1">inplace=</span><span class="s0">True</span><span class="s1">)</span>
+<a name="l58"><span class="ln">58   </span></a>
+<a name="l59"><span class="ln">59   </span></a><span class="s1">train_data_generator = ImageDataGenerator(rescale=</span><span class="s2">1 </span><span class="s1">/ </span><span class="s2">255</span><span class="s0">, </span><span class="s1">shear_range=</span><span class="s2">0.2</span><span class="s0">, </span><span class="s1">zoom_range=</span><span class="s2">0.2</span><span class="s1">)</span>
+<a name="l60"><span class="ln">60   </span></a><span class="s1">data_generator = ImageDataGenerator(rescale=</span><span class="s2">1 </span><span class="s1">/ </span><span class="s2">255</span><span class="s1">)</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s1">training_data_frame = train_data_generator.flow_from_dataframe(dataframe=dataset</span><span class="s0">, </span><span class="s1">directory=data_path</span><span class="s0">, </span><span class="s1">x_col=</span><span class="s3">'image'</span><span class="s0">,</span>
+<a name="l62"><span class="ln">62   </span></a>                                                               <span class="s1">y_col=</span><span class="s3">'label'</span><span class="s0">, </span><span class="s1">target_size=(</span><span class="s2">64</span><span class="s0">, </span><span class="s2">64</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l63"><span class="ln">63   </span></a>                                                               <span class="s1">class_mode=</span><span class="s3">'categorical'</span><span class="s1">)</span>
+<a name="l64"><span class="ln">64   </span></a><span class="s1">validation_data_frame = data_generator.flow_from_dataframe(dataframe=validation_set</span><span class="s0">, </span><span class="s1">directory=data_path</span><span class="s0">, </span><span class="s1">x_col=</span><span class="s3">'image'</span><span class="s0">,</span>
+<a name="l65"><span class="ln">65   </span></a>                                                           <span class="s1">y_col=</span><span class="s3">'label'</span><span class="s0">, </span><span class="s1">target_size=(</span><span class="s2">64</span><span class="s0">, </span><span class="s2">64</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l66"><span class="ln">66   </span></a>                                                           <span class="s1">class_mode=</span><span class="s3">'categorical'</span><span class="s1">)</span>
+<a name="l67"><span class="ln">67   </span></a>
+<a name="l68"><span class="ln">68   </span></a><span class="s0">if </span><span class="s1">train_new_model:</span>
+<a name="l69"><span class="ln">69   </span></a>
+<a name="l70"><span class="ln">70   </span></a>    <span class="s1">model = tf.keras.models.Sequential()</span>
+<a name="l71"><span class="ln">71   </span></a>
+<a name="l72"><span class="ln">72   </span></a>    <span class="s4"># add convolutional and pooling layer</span>
+<a name="l73"><span class="ln">73   </span></a>    <span class="s1">model.add(tf.keras.layers.Conv2D(filters=</span><span class="s2">30</span><span class="s0">, </span><span class="s1">kernel_size=</span><span class="s2">3</span><span class="s0">, </span><span class="s1">activation=</span><span class="s3">'relu'</span><span class="s0">, </span><span class="s1">input_shape=[</span><span class="s2">64</span><span class="s0">, </span><span class="s2">64</span><span class="s0">, </span><span class="s2">3</span><span class="s1">]))</span>
+<a name="l74"><span class="ln">74   </span></a>    <span class="s1">model.add(tf.keras.layers.MaxPool2D(pool_size=</span><span class="s2">2</span><span class="s0">, </span><span class="s1">strides=</span><span class="s2">2</span><span class="s1">))</span>
+<a name="l75"><span class="ln">75   </span></a>
+<a name="l76"><span class="ln">76   </span></a>    <span class="s1">model.add(tf.keras.layers.Conv2D(filters=</span><span class="s2">30</span><span class="s0">, </span><span class="s1">kernel_size=</span><span class="s2">3</span><span class="s0">, </span><span class="s1">activation=</span><span class="s3">'relu'</span><span class="s1">))</span>
+<a name="l77"><span class="ln">77   </span></a>    <span class="s1">model.add(tf.keras.layers.MaxPool2D(pool_size=</span><span class="s2">2</span><span class="s0">, </span><span class="s1">strides=</span><span class="s2">2</span><span class="s1">))</span>
+<a name="l78"><span class="ln">78   </span></a>
+<a name="l79"><span class="ln">79   </span></a>    <span class="s1">model.add(tf.keras.layers.Conv2D(filters=</span><span class="s2">30</span><span class="s0">, </span><span class="s1">kernel_size=</span><span class="s2">3</span><span class="s0">, </span><span class="s1">activation=</span><span class="s3">'relu'</span><span class="s1">))</span>
+<a name="l80"><span class="ln">80   </span></a>    <span class="s1">model.add(tf.keras.layers.MaxPool2D(pool_size=</span><span class="s2">2</span><span class="s0">, </span><span class="s1">strides=</span><span class="s2">2</span><span class="s1">))</span>
+<a name="l81"><span class="ln">81   </span></a>
+<a name="l82"><span class="ln">82   </span></a>    <span class="s1">model.add(tf.keras.layers.Flatten())</span>
+<a name="l83"><span class="ln">83   </span></a>
+<a name="l84"><span class="ln">84   </span></a>    <span class="s4"># add full connection, output layer</span>
+<a name="l85"><span class="ln">85   </span></a>    <span class="s1">model.add(tf.keras.layers.Dense(units=</span><span class="s2">600</span><span class="s0">, </span><span class="s1">activation=</span><span class="s3">'relu'</span><span class="s1">))</span>
+<a name="l86"><span class="ln">86   </span></a>    <span class="s1">model.add(tf.keras.layers.Dense(units=</span><span class="s2">52</span><span class="s0">, </span><span class="s1">activation=</span><span class="s3">'sigmoid'</span><span class="s1">))</span>
+<a name="l87"><span class="ln">87   </span></a>
+<a name="l88"><span class="ln">88   </span></a>    <span class="s4"># compile model</span>
+<a name="l89"><span class="ln">89   </span></a>    <span class="s1">model.compile(optimizer=</span><span class="s3">'adam'</span><span class="s0">, </span><span class="s1">loss=</span><span class="s3">'categorical_crossentropy'</span><span class="s0">, </span><span class="s1">metrics=[</span><span class="s3">'accuracy'</span><span class="s1">])</span>
+<a name="l90"><span class="ln">90   </span></a>
+<a name="l91"><span class="ln">91   </span></a>    <span class="s0">if </span><span class="s1">calculate_epochs:</span>
+<a name="l92"><span class="ln">92   </span></a>        <span class="s1">history = model.fit(training_data_frame</span><span class="s0">, </span><span class="s1">validation_data=validation_data_frame</span><span class="s0">, </span><span class="s1">epochs=epochs_count)</span>
+<a name="l93"><span class="ln">93   </span></a>
+<a name="l94"><span class="ln">94   </span></a>        <span class="s1">accuracy = history.history[</span><span class="s3">'accuracy'</span><span class="s1">]</span>
+<a name="l95"><span class="ln">95   </span></a>        <span class="s1">val_accuracy = history.history[</span><span class="s3">'val_accuracy'</span><span class="s1">]</span>
+<a name="l96"><span class="ln">96   </span></a>        <span class="s1">loss = history.history[</span><span class="s3">'loss'</span><span class="s1">]</span>
+<a name="l97"><span class="ln">97   </span></a>        <span class="s1">val_loss = history.history[</span><span class="s3">'val_loss'</span><span class="s1">]</span>
+<a name="l98"><span class="ln">98   </span></a>
+<a name="l99"><span class="ln">99   </span></a>        <span class="s1">epochs_range = range(epochs_count)</span>
+<a name="l100"><span class="ln">100  </span></a>
+<a name="l101"><span class="ln">101  </span></a>        <span class="s1">plt.figure(figsize=(</span><span class="s2">15</span><span class="s0">, </span><span class="s2">15</span><span class="s1">))</span>
+<a name="l102"><span class="ln">102  </span></a>        <span class="s1">plt.subplot(</span><span class="s2">2</span><span class="s0">, </span><span class="s2">2</span><span class="s0">, </span><span class="s2">1</span><span class="s1">)</span>
+<a name="l103"><span class="ln">103  </span></a>        <span class="s1">plt.plot(epochs_range</span><span class="s0">, </span><span class="s1">accuracy</span><span class="s0">, </span><span class="s1">label=</span><span class="s3">'Training Accuracy'</span><span class="s1">)</span>
+<a name="l104"><span class="ln">104  </span></a>        <span class="s1">plt.plot(epochs_range</span><span class="s0">, </span><span class="s1">val_accuracy</span><span class="s0">, </span><span class="s1">label=</span><span class="s3">'Validation Accuracy'</span><span class="s1">)</span>
+<a name="l105"><span class="ln">105  </span></a>        <span class="s1">plt.legend(loc=</span><span class="s3">'lower right'</span><span class="s1">)</span>
+<a name="l106"><span class="ln">106  </span></a>        <span class="s1">plt.title(</span><span class="s3">'Training and Validation Accuracy'</span><span class="s1">)</span>
+<a name="l107"><span class="ln">107  </span></a>
+<a name="l108"><span class="ln">108  </span></a>        <span class="s1">plt.subplot(</span><span class="s2">2</span><span class="s0">, </span><span class="s2">2</span><span class="s0">, </span><span class="s2">2</span><span class="s1">)</span>
+<a name="l109"><span class="ln">109  </span></a>        <span class="s1">plt.plot(epochs_range</span><span class="s0">, </span><span class="s1">loss</span><span class="s0">, </span><span class="s1">label=</span><span class="s3">'Training Loss'</span><span class="s1">)</span>
+<a name="l110"><span class="ln">110  </span></a>        <span class="s1">plt.plot(epochs_range</span><span class="s0">, </span><span class="s1">val_loss</span><span class="s0">, </span><span class="s1">label=</span><span class="s3">'Validation Loss'</span><span class="s1">)</span>
+<a name="l111"><span class="ln">111  </span></a>        <span class="s1">plt.legend(loc=</span><span class="s3">'upper right'</span><span class="s1">)</span>
+<a name="l112"><span class="ln">112  </span></a>        <span class="s1">plt.title(</span><span class="s3">'Training and Validation Loss'</span><span class="s1">)</span>
+<a name="l113"><span class="ln">113  </span></a>        <span class="s1">plt.show()</span>
+<a name="l114"><span class="ln">114  </span></a>
+<a name="l115"><span class="ln">115  </span></a>    <span class="s0">else</span><span class="s1">:</span>
+<a name="l116"><span class="ln">116  </span></a>        <span class="s1">model.fit(training_data_frame</span><span class="s0">, </span><span class="s1">validation_data=validation_data_frame</span><span class="s0">, </span><span class="s1">epochs=epochs_count)</span>
+<a name="l117"><span class="ln">117  </span></a>
+<a name="l118"><span class="ln">118  </span></a>    <span class="s4"># Saving the model</span>
+<a name="l119"><span class="ln">119  </span></a>    <span class="s1">model.save(</span><span class="s3">'handwritten_digits.model'</span><span class="s1">)</span>
+<a name="l120"><span class="ln">120  </span></a>    <span class="s1">print(</span><span class="s3">'</span><span class="s0">\n</span><span class="s3">Model Trained Successfully'</span><span class="s1">)</span>
+<a name="l121"><span class="ln">121  </span></a>
+<a name="l122"><span class="ln">122  </span></a><span class="s0">else</span><span class="s1">:</span>
+<a name="l123"><span class="ln">123  </span></a>    <span class="s4"># Load the model</span>
+<a name="l124"><span class="ln">124  </span></a>    <span class="s1">model = tf.keras.models.load_model(</span><span class="s3">'handwritten_digits.model'</span><span class="s1">)</span>
+<a name="l125"><span class="ln">125  </span></a>
+<a name="l126"><span class="ln">126  </span></a>    <span class="s1">f_data_path = </span><span class="s3">r&quot;D:\Acadamic OUSL\Level 5\Vision\Mini Project Code\Drop_test_Image_Here&quot;</span>
+<a name="l127"><span class="ln">127  </span></a>
+<a name="l128"><span class="ln">128  </span></a>    <span class="s1">f_dataset = pandas.read_csv(</span><span class="s3">r'D:\Acadamic OUSL\Level 5\Vision\Mini Project Code\Drop_test_Image_Here\english.csv'</span><span class="s1">)</span>
+<a name="l129"><span class="ln">129  </span></a>    <span class="s1">f_rand = random.sample(range(len(f_dataset))</span><span class="s0">, </span><span class="s1">test_image_count)</span>
+<a name="l130"><span class="ln">130  </span></a>    <span class="s1">f_validation_set = pandas.DataFrame(f_dataset.iloc[f_rand</span><span class="s0">, </span><span class="s1">:].values</span><span class="s0">, </span><span class="s1">columns=[</span><span class="s3">'image'</span><span class="s0">, </span><span class="s3">'label'</span><span class="s1">])</span>
+<a name="l131"><span class="ln">131  </span></a>    <span class="s4"># remove the added data</span>
+<a name="l132"><span class="ln">132  </span></a>    <span class="s1">f_dataset.drop(f_rand</span><span class="s0">, </span><span class="s1">inplace=</span><span class="s0">True</span><span class="s1">)</span>
+<a name="l133"><span class="ln">133  </span></a>
+<a name="l134"><span class="ln">134  </span></a>    <span class="s1">f_rand = random.sample(range(len(f_validation_set))</span><span class="s0">, </span><span class="s1">test_image_count)</span>
+<a name="l135"><span class="ln">135  </span></a>    <span class="s1">f_test_set = pandas.DataFrame(f_validation_set.iloc[f_rand</span><span class="s0">, </span><span class="s1">:].values</span><span class="s0">, </span><span class="s1">columns=[</span><span class="s3">'image'</span><span class="s0">, </span><span class="s3">'label'</span><span class="s1">])</span>
+<a name="l136"><span class="ln">136  </span></a>    <span class="s4"># remove the added data</span>
+<a name="l137"><span class="ln">137  </span></a>    <span class="s1">f_validation_set.drop(f_rand</span><span class="s0">, </span><span class="s1">inplace=</span><span class="s0">True</span><span class="s1">)</span>
+<a name="l138"><span class="ln">138  </span></a>
+<a name="l139"><span class="ln">139  </span></a>    <span class="s1">print(f_test_set)</span>
+<a name="l140"><span class="ln">140  </span></a>
+<a name="l141"><span class="ln">141  </span></a>    <span class="s1">f_data_generator = ImageDataGenerator(rescale=</span><span class="s2">1 </span><span class="s1">/ </span><span class="s2">255</span><span class="s1">)</span>
+<a name="l142"><span class="ln">142  </span></a>    <span class="s1">f_test_data_frame = f_data_generator.flow_from_dataframe(dataframe=f_test_set</span><span class="s0">, </span><span class="s1">directory=f_data_path</span><span class="s0">, </span><span class="s1">x_col=</span><span class="s3">'image'</span><span class="s0">,</span>
+<a name="l143"><span class="ln">143  </span></a>                                                             <span class="s1">y_col=</span><span class="s3">'label'</span><span class="s0">, </span><span class="s1">target_size=(</span><span class="s2">64</span><span class="s0">, </span><span class="s2">64</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l144"><span class="ln">144  </span></a>                                                             <span class="s1">class_mode=</span><span class="s3">'categorical'</span><span class="s0">, </span><span class="s1">shuffle=</span><span class="s0">False</span><span class="s1">)</span>
+<a name="l145"><span class="ln">145  </span></a>    <span class="s1">f_training_data_frame = train_data_generator.flow_from_dataframe(dataframe=dataset</span><span class="s0">, </span><span class="s1">directory=data_path</span><span class="s0">,</span>
+<a name="l146"><span class="ln">146  </span></a>                                                                     <span class="s1">x_col=</span><span class="s3">'image'</span><span class="s0">, </span><span class="s1">y_col=</span><span class="s3">'label'</span><span class="s0">, </span><span class="s1">target_size=(</span><span class="s2">64</span><span class="s0">, </span><span class="s2">64</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l147"><span class="ln">147  </span></a>                                                                     <span class="s1">class_mode=</span><span class="s3">'categorical'</span><span class="s1">)</span>
+<a name="l148"><span class="ln">148  </span></a>
+<a name="l149"><span class="ln">149  </span></a>    <span class="s1">print(</span><span class="s3">&quot;F Prediction mapping: &quot;</span><span class="s0">, </span><span class="s1">f_training_data_frame.class_indices)</span>
+<a name="l150"><span class="ln">150  </span></a>    <span class="s1">predict = model.predict(f_test_data_frame)</span>
+<a name="l151"><span class="ln">151  </span></a>
+<a name="l152"><span class="ln">152  </span></a>    <span class="s4"># switcher shows our network mapping to the prediction</span>
+<a name="l153"><span class="ln">153  </span></a>    <span class="s1">switcher = {</span>
+<a name="l154"><span class="ln">154  </span></a>        <span class="s2">0</span><span class="s1">: </span><span class="s3">&quot;A&quot;</span><span class="s0">,   </span><span class="s2">1</span><span class="s1">: </span><span class="s3">&quot;B&quot;</span><span class="s0">,  </span><span class="s2">2</span><span class="s1">: </span><span class="s3">&quot;C&quot;</span><span class="s0">,  </span><span class="s2">3</span><span class="s1">: </span><span class="s3">&quot;D&quot;</span><span class="s0">,  </span><span class="s2">4</span><span class="s1">: </span><span class="s3">&quot;E&quot;</span><span class="s0">,  </span><span class="s2">5</span><span class="s1">: </span><span class="s3">&quot;F&quot;</span><span class="s0">,  </span><span class="s2">6</span><span class="s1">: </span><span class="s3">&quot;G&quot;</span><span class="s0">,  </span><span class="s2">7</span><span class="s1">: </span><span class="s3">&quot;H&quot;</span><span class="s0">,  </span><span class="s2">8</span><span class="s1">: </span><span class="s3">&quot;I&quot;</span><span class="s0">,  </span><span class="s2">9</span><span class="s1">: </span><span class="s3">&quot;J&quot;</span><span class="s0">,</span>
+<a name="l155"><span class="ln">155  </span></a>        <span class="s2">10</span><span class="s1">: </span><span class="s3">&quot;K&quot;</span><span class="s0">, </span><span class="s2">11</span><span class="s1">: </span><span class="s3">&quot;L&quot;</span><span class="s0">, </span><span class="s2">12</span><span class="s1">: </span><span class="s3">&quot;M&quot;</span><span class="s0">, </span><span class="s2">13</span><span class="s1">: </span><span class="s3">&quot;N&quot;</span><span class="s0">, </span><span class="s2">14</span><span class="s1">: </span><span class="s3">&quot;O&quot;</span><span class="s0">, </span><span class="s2">15</span><span class="s1">: </span><span class="s3">&quot;P&quot;</span><span class="s0">, </span><span class="s2">16</span><span class="s1">: </span><span class="s3">&quot;Q&quot;</span><span class="s0">, </span><span class="s2">17</span><span class="s1">: </span><span class="s3">&quot;R&quot;</span><span class="s0">, </span><span class="s2">18</span><span class="s1">: </span><span class="s3">&quot;S&quot;</span><span class="s0">, </span><span class="s2">19</span><span class="s1">: </span><span class="s3">&quot;T&quot;</span><span class="s0">,</span>
+<a name="l156"><span class="ln">156  </span></a>        <span class="s2">20</span><span class="s1">: </span><span class="s3">&quot;U&quot;</span><span class="s0">, </span><span class="s2">21</span><span class="s1">: </span><span class="s3">&quot;V&quot;</span><span class="s0">, </span><span class="s2">22</span><span class="s1">: </span><span class="s3">&quot;W&quot;</span><span class="s0">, </span><span class="s2">23</span><span class="s1">: </span><span class="s3">&quot;X&quot;</span><span class="s0">, </span><span class="s2">24</span><span class="s1">: </span><span class="s3">&quot;Y&quot;</span><span class="s0">, </span><span class="s2">25</span><span class="s1">: </span><span class="s3">&quot;Z&quot;</span><span class="s0">, </span><span class="s2">26</span><span class="s1">: </span><span class="s3">&quot;a&quot;</span><span class="s0">, </span><span class="s2">27</span><span class="s1">: </span><span class="s3">&quot;b&quot;</span><span class="s0">, </span><span class="s2">28</span><span class="s1">: </span><span class="s3">&quot;c&quot;</span><span class="s0">, </span><span class="s2">29</span><span class="s1">: </span><span class="s3">&quot;d&quot;</span><span class="s0">,</span>
+<a name="l157"><span class="ln">157  </span></a>        <span class="s2">30</span><span class="s1">: </span><span class="s3">&quot;e&quot;</span><span class="s0">, </span><span class="s2">31</span><span class="s1">: </span><span class="s3">&quot;f&quot;</span><span class="s0">, </span><span class="s2">32</span><span class="s1">: </span><span class="s3">&quot;g&quot;</span><span class="s0">, </span><span class="s2">33</span><span class="s1">: </span><span class="s3">&quot;h&quot;</span><span class="s0">, </span><span class="s2">34</span><span class="s1">: </span><span class="s3">&quot;i&quot;</span><span class="s0">, </span><span class="s2">35</span><span class="s1">: </span><span class="s3">&quot;j&quot;</span><span class="s0">, </span><span class="s2">36</span><span class="s1">: </span><span class="s3">&quot;k&quot;</span><span class="s0">, </span><span class="s2">37</span><span class="s1">: </span><span class="s3">&quot;l&quot;</span><span class="s0">, </span><span class="s2">38</span><span class="s1">: </span><span class="s3">&quot;m&quot;</span><span class="s0">, </span><span class="s2">39</span><span class="s1">: </span><span class="s3">&quot;n&quot;</span><span class="s0">,</span>
+<a name="l158"><span class="ln">158  </span></a>        <span class="s2">40</span><span class="s1">: </span><span class="s3">&quot;o&quot;</span><span class="s0">, </span><span class="s2">41</span><span class="s1">: </span><span class="s3">&quot;p&quot;</span><span class="s0">, </span><span class="s2">42</span><span class="s1">: </span><span class="s3">&quot;q&quot;</span><span class="s0">, </span><span class="s2">43</span><span class="s1">: </span><span class="s3">&quot;r&quot;</span><span class="s0">, </span><span class="s2">44</span><span class="s1">: </span><span class="s3">&quot;s&quot;</span><span class="s0">, </span><span class="s2">45</span><span class="s1">: </span><span class="s3">&quot;t&quot;</span><span class="s0">, </span><span class="s2">46</span><span class="s1">: </span><span class="s3">&quot;u&quot;</span><span class="s0">, </span><span class="s2">47</span><span class="s1">: </span><span class="s3">&quot;v&quot;</span><span class="s0">, </span><span class="s2">48</span><span class="s1">: </span><span class="s3">&quot;w&quot;</span><span class="s0">, </span><span class="s2">49</span><span class="s1">: </span><span class="s3">&quot;x&quot;</span><span class="s0">,</span>
+<a name="l159"><span class="ln">159  </span></a>        <span class="s2">50</span><span class="s1">: </span><span class="s3">&quot;y&quot;</span><span class="s0">, </span><span class="s2">51</span><span class="s1">: </span><span class="s3">&quot;z&quot;</span><span class="s1">}</span>
+<a name="l160"><span class="ln">160  </span></a>
+<a name="l161"><span class="ln">161  </span></a>    <span class="s1">outputDf = pandas.DataFrame(predict)</span>
+<a name="l162"><span class="ln">162  </span></a>
+<a name="l163"><span class="ln">163  </span></a>    <span class="s1">maxIndex = list(outputDf.idxmax(axis=</span><span class="s2">1</span><span class="s1">))</span>
+<a name="l164"><span class="ln">164  </span></a>
+<a name="l165"><span class="ln">165  </span></a>    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(f_test_set)):</span>
+<a name="l166"><span class="ln">166  </span></a>        <span class="s1">image = img.imread(f_data_path + </span><span class="s3">'/' </span><span class="s1">+ f_test_set.at[i</span><span class="s0">, </span><span class="s3">'image'</span><span class="s1">])</span>
+<a name="l167"><span class="ln">167  </span></a>        <span class="s1">plt.title(switcher.get(maxIndex[i]</span><span class="s0">, </span><span class="s3">&quot;error&quot;</span><span class="s1">))</span>
+<a name="l168"><span class="ln">168  </span></a>        <span class="s1">plt.imshow(cv.cvtColor(image</span><span class="s0">, </span><span class="s1">cv.COLOR_BGR2RGB))</span>
+<a name="l169"><span class="ln">169  </span></a>        <span class="s1">plt.show()</span>
+<a name="l170"><span class="ln">170  </span></a></pre>
+</body>
+</html>
