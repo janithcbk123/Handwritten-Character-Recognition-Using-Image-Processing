@@ -9,13 +9,20 @@ At present, handwritten characters are increasingly used in daily life. Handwrit
 
 To implement an algorithm that will be able to perform image processing of HCR which is a process of automatic computer recognition of characters in optically scanned and digitized pages of text.
 
-## Flow Chart of the Process
+## Features
+
+- Train a model to HCR.
+- Change parameters and compare Loss vs. Accuracy
+- Recognize handwritten characters.
+
+## Method
+### Flow Chart of the Process
 
 <p align="center">
 <img width="650" src="https://github.com/janithcbk123/Handwritten-Character-Recognition-Using-Image-Processing/blob/main/Supportive%20Images/Flowchart.jpg">
 </p>
 
-## Selecting Mode (Train or Test)
+### Selecting Mode (Train or Test)
 
 The System allows the use to Train a new model or use an existing trained model. When the training mode is selected, the system allows the user to select how many epochs should be used in the model or, the user can choose to “calculate the optimum number of epochs mode”. 
 
@@ -43,7 +50,7 @@ If the user selects the “Train Mode” System, the user can calculate the opti
 
 
 
-## Calculate the Optimum Number of epochs
+### Calculate the Optimum Number of epochs
 
 <p align="left">
   The System allows the use to Train a new model or use an existing trained model. When the training mode is selected, the system allows the user to select how many epochs should be used in the model or, the user can choose to “calculate optimum number of epochs    mode”. 
@@ -63,7 +70,7 @@ If the user selects the “Train Mode” System, the user can calculate the opti
 
 
 
-## Uploading Testing Images
+### Uploading Testing Images
 
 <p align="left">
   The System allows the use of Test image recognition on custom images. To process multiple images at one time they need to be placed in the “Drop_Your_Image_Here” folder and numbered from “001”.
@@ -102,3 +109,8 @@ If the user selects the “Train Mode” System, the user can calculate the opti
 <p align="left">
   In this case, we can see 23 epochs is a good value to be set. It has good accuracy, less losses in validation, and does not take so much time to train.
 </p>
+
+
+## Acknowledgements
+I would like to acknowledge and give our thanks to Mr. B.G.D. Achintha Madhusanka and the DMX5314 module team for supporting the project.
+
