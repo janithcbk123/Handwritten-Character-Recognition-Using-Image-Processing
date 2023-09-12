@@ -114,3 +114,5 @@ If the user selects the “Train Mode” System, the user can calculate the opti
 ## Acknowledgements
 I would like to acknowledge and give our thanks to Mr. B.G.D. Achintha Madhusanka and the DMX5314 module team for supporting the project.
 
+## Author
+- [@janithcbk123](https://www.github.com/janithcbk123)
